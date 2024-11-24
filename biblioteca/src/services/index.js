@@ -5,7 +5,7 @@ const url = "https://api-books-dot-api-samples-423102.uc.r.appspot.com/api";
 export function getBooks() {
   return axios.get(`${url}/books`, {
     headers: {
-      Authorization: "12118907",
+      Authorization: "Bearer 12118907",
     },
   });
 }

@@ -11,8 +11,9 @@ function App() {
     try {
       const result = await service.getBooks();
       console.log("Result: ", result);
+      setBooks(result.data);
     } catch (err) {
-      console.logI("Erro: ", err);
+      console.log("Erro: ", err);
     }
   }
 
@@ -24,7 +25,25 @@ function App() {
     setEstante2((prev) => [...prev, book]);
   }
 
-  useEffect(() => {}, []);
+  function adicionarEstouLendo(item, numeroEstante) {
+    if (numeroEstante == 1) {
+      const updatedEstante = estante1.map((livro) => {
+        if (livro === item) {
+          const newItem = { ...item, status: "estouLendo" };
+          return newItem;
+        } else {
+          return item;
+        }
+      });
+      setEstante1(updatedEstante);
+    } else {
+    }
+  }
+
+  useEffect(() => {
+    getBooks();
+    console.log("Books: ", books);
+  }, []);
   return (
     <div className="App">
       <div>
@@ -39,6 +58,43 @@ function App() {
                 <button type="button" onClick={() => adicionarEstante2(book)}>
                   Adicionar a estante 2
                 </button>
+              </>
+            );
+          })}
+        <h1>Estante 1</h1>
+        {estante1 &&
+          estante1.map((item) => {
+            return (
+              <>
+                <h1>{item.title}</h1>
+                <button
+                  type="button"
+                  onClick={() => adicionarEstouLendo(item, 1)}
+                >
+                  Adiciona a estou lendo
+                </button>
+              </>
+            );
+          })}
+        <h1>Estante 2</h1>
+        {estante2 &&
+          estante2.map((item) => {
+            return (
+              <>
+                <h1>{item.title}</h1>
+              </>
+            );
+          })}
+        <h1>Estou lendo</h1>
+        {estante1 &&
+          estante1.map((item) => {
+            return (
+              <>
+                {item.status === "estouLendo" ? (
+                  <div>{item.title}</div>
+                ) : (
+                  <div></div>
+                )}
               </>
             );
           })}
